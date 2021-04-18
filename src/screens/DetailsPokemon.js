@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Animated } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Animated, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TabBar, TabView, SceneMap } from 'react-native-tab-view';
@@ -143,7 +143,7 @@ const DetailsPokemon = ({navigation}) => {
     const _renderItem = ({ item, index }) => {  
       return (
             <ImageBackground key={`uniqueId${item.id}`} source={{ uri: 'https://i.imgur.com/GfnKKUj.png' }} style={{
-                width: '100%', height: hp(50), backgroundColor:
+                flex:1, backgroundColor:
 
                     item.type.find(x => x === 'grass') ? colors.seed :
                         item.type.find(x => x === 'fire') ? colors.fire :
@@ -167,8 +167,12 @@ const DetailsPokemon = ({navigation}) => {
                             {
                                 item.type.map(x => {
                                     return (
-                                        <Text style={{ marginLeft: hp(1), borderRadius: 10, color: '#fff', textAlign: 'center', width: wp(16), height: hp(2.5), backgroundColor: 'rgba(255,255,255,0.4)', textTransform: 'capitalize' }}>{x}</Text>
-                                    )
+                                        <View style={{ marginLeft: hp(1), marginVertical: hp(0.2), borderRadius: 10, justifyContent: 'center', alignItems: 'center', textAlign: 'center', width: wp(14), height: hp(2.3), backgroundColor: 'rgba(255,255,255,0.4)', textTransform: 'capitalize', fontSize: hp(1.4) }}>
+                                        <Text style={{ color: '#fff', justifyContent: 'center', alignItems: 'center', textAlign: 'center', textTransform: 'capitalize', fontSize: hp(1.33) }}>{x}</Text>
+                                    </View>
+                                      
+                                    
+                                        )
                                 })
                             }
                         </View>
@@ -199,8 +203,8 @@ const DetailsPokemon = ({navigation}) => {
     }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#222' }}>
-            <View style={{ flex: 0.9 }}>
+        <ScrollView style={{ backgroundColor: '#222' }}>
+            <View style={{ flex: 1.1 }}>
 
                 <Carousel
                     firstItem={currentIndex} 
@@ -222,7 +226,7 @@ const DetailsPokemon = ({navigation}) => {
                 
             </View>
              <View style={{ flex: 0.9, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
-                <View style={{ width: wp(100), height: hp(44), alignItems: 'center', backgroundColor: 'red', flexDirection: 'row' }}>
+                <View style={{ width: wp(100), height: hp(80), alignItems: 'center', backgroundColor: 'red', flexDirection: 'row' }}>
                     <TabView
                         
                         renderTabBar={props => <TabBar
@@ -233,7 +237,7 @@ const DetailsPokemon = ({navigation}) => {
                             labelStyle={{
                                 textTransform: 'capitalize',
                                 fontWeight: 'bold',
-                                fontSize:hp(1.8)
+                                fontSize:12
                             }}
                             contentContainerStyle={{
                                 shadowRadius: 0
@@ -252,7 +256,7 @@ const DetailsPokemon = ({navigation}) => {
                 </View>
             </View> 
 
-        </View>
+        </ScrollView>
 
     );
 }

@@ -97,7 +97,7 @@ const Main = ({navigation}) => {
                 <Text style={{ fontSize: hp(4), fontWeight: 'bold', color: '#222' }}>Pokedex</Text>
             </View>
             <FlatGrid
-                itemDimension={hp(17)}
+                itemDimension={hp(18)}
                 data={Poke.slice(0,10)}
                 // staticDimension={300}
                 // fixed
@@ -108,20 +108,20 @@ const Main = ({navigation}) => {
                             backgroundColor: what(item)
                         }]}>
                             <View style={{ flexDirection: 'row', height: '100%' }}>
-                                <View style={{ width: wp(26), paddingTop: 10, paddingLeft: 10 }}>
+                                <View style={{ width: wp(26), paddingTop: hp(3), paddingLeft: hp(1), }}>
                                     <Text style={styles.itemName}>{item.ThumbnailAltText}</Text>
                                     {
                                         item.type.map(x => {
                                             return (
                                                 <View style={{ marginLeft: hp(1), marginVertical: hp(0.2), borderRadius: 10, justifyContent: 'center', alignItems: 'center', textAlign: 'center', width: wp(14), height: hp(2.3), backgroundColor: 'rgba(255,255,255,0.4)', textTransform: 'capitalize', fontSize: hp(1.4) }}>
-                                                    <Text style={{ color: '#fff', justifyContent: 'center', alignItems: 'center', textAlign: 'center', textTransform: 'capitalize', fontSize: hp(1.3) }}>{x}</Text>
+                                                    <Text style={{ color: '#fff', justifyContent: 'center', alignItems: 'center', textAlign: 'center', textTransform: 'capitalize', fontSize: hp(1.33) }}>{x}</Text>
                                                 </View>
                                             )
                                         })
                                     }
                                 </View>
-                                <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ color: 'rgba(0,0,0,0.15)', fontSize: hp(1.5), fontWeight: 'bold' }}>{`#${item.number}`}</Text>
+                                <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center'}}>
+                                    <Text style={{ color: 'rgba(0,0,0,0.15)', fontSize: hp(1.5), fontWeight: 'bold', marginBottom:hp(1) }}>{`#${item.number}`}</Text>
                                     <Image
                                         style={{
                                             width: hp(10),
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         height: hp(15),
     },
     itemName: {
-        fontSize: hp(2),
+        fontSize: hp(1.8),
         color: '#fff',
         fontWeight: 'bold',
     },
