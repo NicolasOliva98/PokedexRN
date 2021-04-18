@@ -98,7 +98,7 @@ const Main = ({navigation}) => {
             </View>
             <FlatGrid
                 itemDimension={hp(18)}
-                data={Poke.slice(0,10)}
+                data={Poke.slice(0,100)}
                 // staticDimension={300}
                 // fixed
                 spacing={10}
