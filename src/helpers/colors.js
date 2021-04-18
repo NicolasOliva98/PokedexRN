@@ -1,4 +1,67 @@
-const colors = {
+
+const types = {
+    ghost: "Fantasma",
+    dark: "Siniestro",
+    electric: "Eléctrico",
+    normal: "Normal",
+    fire: "Fuego",
+    psychic: "Psíquico",
+    flying: "Volador",
+    steel: "Acero",
+    poison: "Veneno",
+    dragon: "Dragón",
+    water: "Agua",
+    ice: "Hielo",
+    rock: "Roca",
+    fighting: "Lucha",
+    grass: "Planta",
+    bug: "Bicho",
+    ground: "Tierra",
+    fairy: "Hada",
+}
+
+export const Typetras = (x) => {
+    switch (x) {
+        case 'grass':
+            return types.grass
+        case 'fire':
+            return types.fire
+        case 'water':
+            return types.water
+        case 'bug':
+            return types.bug
+        case 'poison':
+            return types.poison
+        case 'electric':
+            return types.electric
+        case 'fairy':
+            return types.fairy
+        case 'fighting':
+            return types.fighting
+        case 'dark':
+            return types.dark
+        case 'dragon':
+            return types.dragon
+        case 'flying':
+            return types.flying
+        case 'ghost':
+            return types.ghost
+        case 'ground':
+            return types.ground
+        case 'ice':
+            return types.ice
+        case 'rock':
+            return types.rock
+        case 'steel':
+            return types.steel
+        case 'psychic':
+            return types.psychic
+        default:
+            return types.normal
+    }
+}
+
+export const colors = {
     ghost: "rgb(185,222,224)",
     dark: "rgb(33,31,31)",
     electric: 'rgb(255,206,75)',
@@ -18,7 +81,7 @@ const colors = {
     ground: "rgb(145,102,69)",
     fairy: "rgb(251,199,244)",
 }
-export default ActiveColor = (item) => {
+export const ActiveColor = (item) => {
     const exp = item.type.find(x => x === 'grass' | x === 'fire' | x === 'water' | x === 'bug' | x === 'poison' | x === 'electric' | x === 'ground' | x === 'fairy' |
         x === 'fighting' | x === 'rock' | x === 'ice' | x === 'steel' | x === 'flying' | x === 'psychic' | x === 'dark' | x === 'ghost' | x === 'dragon')
     switch (exp) {
