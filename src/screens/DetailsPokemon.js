@@ -24,6 +24,8 @@ const colors = {
 const DetailsPokemon = ({navigation}) => {
     const currentIndex =  navigation.getParam('setindex')
     const [Pokemon, setPokemon] = useState({})
+    const [Cp, setCurrentPokemon] = useState({})
+   
     const RenderProgress = ({ label, stats, }) => (
         <View style={{ flexDirection: 'row', marginVertical: hp(1) }}>
             <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center' }}>
@@ -138,14 +140,10 @@ const DetailsPokemon = ({navigation}) => {
         )
     }
 
-    const _renderItem = ({ item, index }) => {
-
-        //setNewIndex(item)
-        console.log(index);
-
-        return (
+    const _renderItem = ({ item, index }) => {  
+      return (
             <ImageBackground key={`uniqueId${item.id}`} source={{ uri: 'https://i.imgur.com/GfnKKUj.png' }} style={{
-                width: '100%', height: hp(100), backgroundColor:
+                width: '100%', height: hp(50), backgroundColor:
 
                     item.type.find(x => x === 'grass') ? colors.seed :
                         item.type.find(x => x === 'fire') ? colors.fire :
@@ -194,19 +192,23 @@ const DetailsPokemon = ({navigation}) => {
         );
     }
 
-
+    const getIndex = (index) => {
+        setCurrentPokemon(Poke[index])
+        console.log(Poke[index]);
+        
+    }
 
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#222' }}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 0.9 }}>
+
                 <Carousel
                     firstItem={currentIndex} 
                     slideStyle={{
-                        backgroundColor: 'purple',
+                        backgroundColor: 'white',
                         margin: 0,
                     }}
-
-                    callbackOffsetMargin={0}
+                    onSnapToItem={(index) => getIndex(index)}
                     data={Poke.slice(0, 10)}
                     renderItem={_renderItem}
                     activeSlideOffset={10}
@@ -216,18 +218,22 @@ const DetailsPokemon = ({navigation}) => {
                     layout='tinder'
                     layoutCardOffset={0}
                 />
+
+                
             </View>
-            {/*  <View style={{ flex: 0.9, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
+             <View style={{ flex: 0.9, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
                 <View style={{ width: wp(100), height: hp(44), alignItems: 'center', backgroundColor: 'red', flexDirection: 'row' }}>
                     <TabView
+                        
                         renderTabBar={props => <TabBar
                             indicatorContainerStyle={{
                                 backgroundColor: 'white',
-                                marginBottom: -10
+                                marginBottom: -6
                             }}
                             labelStyle={{
                                 textTransform: 'capitalize',
-                                fontWeight: 'bold'
+                                fontWeight: 'bold',
+                                fontSize:hp(1.8)
                             }}
                             contentContainerStyle={{
                                 shadowRadius: 0
@@ -244,7 +250,7 @@ const DetailsPokemon = ({navigation}) => {
                         initialLayout={{ width: hp(100) }}
                     />
                 </View>
-            </View> */}
+            </View> 
 
         </View>
 

@@ -97,7 +97,7 @@ const Main = ({navigation}) => {
                 <Text style={{ fontSize: hp(4), fontWeight: 'bold', color: '#222' }}>Pokedex</Text>
             </View>
             <FlatGrid
-                itemDimension={hp(15)}
+                itemDimension={hp(17)}
                 data={Poke.slice(0,10)}
                 // staticDimension={300}
                 // fixed
