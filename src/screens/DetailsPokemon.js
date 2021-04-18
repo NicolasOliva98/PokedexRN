@@ -5,24 +5,24 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { TabBar, TabView, SceneMap } from 'react-native-tab-view';
 import Icon from '@expo/vector-icons/MaterialCommunityIcons'
 import * as Progress from 'react-native-progress';
-import Paralax from './Main'
+
 import { ImageHeaderScrollView, TriggeringView } from 'react-native-image-header-scroll-view';
 import { ViewPager } from 'react-native-viewpager-carousel'
 import { color } from 'react-native-reanimated';
-import Char from './examples/resp'
 import Carousel from 'react-native-snap-carousel';
-import Poke from './../api/poke.json'
+import Poke from '../../api/poke.json'
 
 const colors = {
     seed: 'rgb(79,213,183)',
     fire: 'rgb(251,108,108)',
     water: 'rgb(118,189,254)',
     lightning: 'rgb(255,206,75)',
-    poison:'rgb(124,83,140)',
-    bug:'rgb(131,168,81)',
-    normal:'rgb(165,173,176)'
+    poison: 'rgb(124,83,140)',
+    bug: 'rgb(131,168,81)',
+    normal: 'rgb(165,173,176)'
 }
-const DetailsPokemon = () => {
+const DetailsPokemon = ({navigation}) => {
+    const currentIndex =  navigation.getParam('setindex')
     const [Pokemon, setPokemon] = useState({})
     const RenderProgress = ({ label, stats, }) => (
         <View style={{ flexDirection: 'row', marginVertical: hp(1) }}>
@@ -62,7 +62,7 @@ const DetailsPokemon = () => {
         </View>
     )
     const SecondRoute = () => (
-        <Paralax />
+        <View style={{ flex: 1, backgroundColor: '#fff' }} />
     )
     const ThreeRoute = () => (
         <View style={{ flex: 1, backgroundColor: '#fff' }} />
@@ -107,36 +107,36 @@ const DetailsPokemon = () => {
     }
 
 
-   const types = {
-       ghost: "Fantasma",
-       dark: "Siniestro",
-       electric: "Eléctrico",
-       normal: "Normal",
-       fire: "Fuego",
-       psychic: "Psíquico",
-       flying: "Volador",
-       steel: "Acero",
-       poison: "Veneno",
-       dragon: "Dragón",
-       water: "Agua",
-       ice: "Hielo",
-       rock: "Roca",
-       fighting: "Lucha",
-       grass: "Planta",
-       bug: "Bicho",
-       ground: "Tierra",
-       fairy: "Hada",
-   }
-   const what = ({item}) => {
-       return(
-           item.type.find(x => x === 'grass') ? colors.seed :
-               item.type.find(x => x === 'fire') ? colors.fire :
-                   item.type.find(x => x === 'water') ? colors.water :
-                       item.type.find(x => x === 'bug') ? colors.bug :
-                           item.type.find(x => x === 'poison') ? colors.poison :
-                               item.type.find(x => x === 'normal') ? colors.normal : colors.lightning
-       )
-   }
+    const types = {
+        ghost: "Fantasma",
+        dark: "Siniestro",
+        electric: "Eléctrico",
+        normal: "Normal",
+        fire: "Fuego",
+        psychic: "Psíquico",
+        flying: "Volador",
+        steel: "Acero",
+        poison: "Veneno",
+        dragon: "Dragón",
+        water: "Agua",
+        ice: "Hielo",
+        rock: "Roca",
+        fighting: "Lucha",
+        grass: "Planta",
+        bug: "Bicho",
+        ground: "Tierra",
+        fairy: "Hada",
+    }
+    const what = ({ item }) => {
+        return (
+            item.type.find(x => x === 'grass') ? colors.seed :
+                item.type.find(x => x === 'fire') ? colors.fire :
+                    item.type.find(x => x === 'water') ? colors.water :
+                        item.type.find(x => x === 'bug') ? colors.bug :
+                            item.type.find(x => x === 'poison') ? colors.poison :
+                                item.type.find(x => x === 'normal') ? colors.normal : colors.lightning
+        )
+    }
 
     const _renderItem = ({ item, index }) => {
 
@@ -145,14 +145,14 @@ const DetailsPokemon = () => {
 
         return (
             <ImageBackground key={`uniqueId${item.id}`} source={{ uri: 'https://i.imgur.com/GfnKKUj.png' }} style={{
-                width: '100%', height: hp(50), backgroundColor:
+                width: '100%', height: hp(100), backgroundColor:
 
                     item.type.find(x => x === 'grass') ? colors.seed :
                         item.type.find(x => x === 'fire') ? colors.fire :
                             item.type.find(x => x === 'water') ? colors.water :
                                 item.type.find(x => x === 'bug') ? colors.bug :
-                                item.type.find(x => x === 'poison') ? colors.poison : 
-                                 item.type.find(x => x === 'normal') ? colors.normal : colors.lightning
+                                    item.type.find(x => x === 'poison') ? colors.poison :
+                                        item.type.find(x => x === 'normal') ? colors.normal : colors.lightning
             }}>
                 <View style={{ width: wp(100), height: hp(9), justifyContent: 'center', flexDirection: 'row' }}>
                     <View style={{ width: '50%', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
@@ -190,35 +190,34 @@ const DetailsPokemon = () => {
                     />
                 </View>
             </ImageBackground>
-           
+
         );
     }
 
-  
+
 
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#222' }}>
-            <View style={{ flex:0.9 }}>
+            <View style={{ flex: 1 }}>
                 <Carousel
-                   // firstItem={0} here index
-
+                    firstItem={currentIndex} 
                     slideStyle={{
                         backgroundColor: 'purple',
-                        margin:0,
+                        margin: 0,
                     }}
-                    
+
                     callbackOffsetMargin={0}
                     data={Poke.slice(0, 10)}
                     renderItem={_renderItem}
                     activeSlideOffset={10}
-                    keyExtractor={(item)=> String(item.id)}
+                    keyExtractor={(item) => String(item.id)}
                     sliderWidth={wp(100)}
                     itemWidth={wp(100)}
                     layout='tinder'
-                    layoutCardOffset={0}     
+                    layoutCardOffset={0}
                 />
             </View>
-           <View style={{ flex: 0.9, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
+            {/*  <View style={{ flex: 0.9, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
                 <View style={{ width: wp(100), height: hp(44), alignItems: 'center', backgroundColor: 'red', flexDirection: 'row' }}>
                     <TabView
                         renderTabBar={props => <TabBar
@@ -245,7 +244,7 @@ const DetailsPokemon = () => {
                         initialLayout={{ width: hp(100) }}
                     />
                 </View>
-            </View> 
+            </View> */}
 
         </View>
 
