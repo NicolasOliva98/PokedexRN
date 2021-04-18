@@ -247,8 +247,7 @@ const DetailsPokemon = ({ navigation }) => {
                         sliderWidth={wp(100)}
                         itemWidth={wp(100)}
                         enableSnap={true}
-                        enableMomentum={true}
-                        initialNumToRender={currentIndex -1}
+                        initialNumToRender={currentIndex}
                     />
                 </ImageBackground>
             </View>
