@@ -35,7 +35,7 @@ const RootStack = createStackNavigator({
 }, {
     initialRouteName: 'Pokedex',
     headerMode:'none',
-    transitionConfig: () => fromLeft(),
+    //transitionConfig: () => fromLeft(),
     //transitionConfig: (nav) => handleCustomTransition(nav)
 })
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, SafeAreaView, StatusBar } from 'react-native';
+import React from 'react';
+import {SafeAreaView, StatusBar } from 'react-native';
 import Root from './src/routes/index'
 
 //forceInset = {{ top: 'always', bottom: 'always' }}

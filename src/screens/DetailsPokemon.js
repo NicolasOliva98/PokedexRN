@@ -98,28 +98,6 @@ const DetailsPokemon = ({ navigation }) => {
         { key: 'three', title: 'Evolution' },
         { key: 'four', title: 'Moves' },
     ]);
-    const data = [
-        { title: 'title 1', color: colors.fire },
-        { title: 'title 2', color: colors.water },
-        { title: 'title 3', color: colors.seed },
-    ]
-    const _renderPage = ({ data }) => {
-        return (
-            <View style={{ flex: 1, backgroundColor: data.color }}>
-                <Char />
-                <ViewPager
-                    data={data}
-                    renderPage={_renderPage}
-                    containerStyle={{
-                        flex: 1,
-                        justifyContent: 'center'
-                    }}
-                />
-            </View>
-
-        )
-    }
-
 
     const types = {
         ghost: "Fantasma",
@@ -247,7 +225,7 @@ const DetailsPokemon = ({ navigation }) => {
                         sliderWidth={wp(100)}
                         itemWidth={wp(100)}
                         enableSnap={true}
-                        initialNumToRender={currentIndex}
+                        initialNumToRender={currentIndex +1}
                     />
                 </ImageBackground>
             </View>
