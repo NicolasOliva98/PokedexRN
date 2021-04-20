@@ -1,40 +1,52 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { TabBar, TabView, SceneMap } from 'react-native-tab-view';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { StyleSheet, Text, View, ImageBackground, Image, Animated, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Animated, ScrollView, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import { ActiveColor, colors } from '../helpers/colors'
 import Icon from '@expo/vector-icons/MaterialCommunityIcons'
 import { Bar } from 'react-native-progress';
-import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import Carousel from 'react-native-snap-carousel';
 import Poke from '../../api/poke.json'
 import * as Animatable from 'react-native-animatable';
 
 const DetailsPokemon = ({ navigation }) => {
     const currentIndex = navigation.getParam('setindex')
-    console.log(currentIndex);
-    const [Pokemon, setPokemon] = useState({})
+    const currentId = navigation.getParam('_id')
+    //console.log(currentIndex);
     const [Cp, setCurrentPokemon] = useState(Poke[currentIndex])
+    const [Pokemon, setPokemon] = useState({})
+    const [loadPoke, setLoadPoke] = useState(false)
 
-    /*  useEffect(()=>{
- 
+    const fetchPokemon = async () => {
+        setLoadPoke(true)
+        const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${Cp.id}`)
+        const data = await resp.json()
+        setPokemon(data)
+        setLoadPoke(false);
+    }
+      useEffect(()=>{
+        fetchPokemon()
          return(()=>{
-             setCurrentPokemon({})
+             
          })
-     },[]) */
+     },[Cp])
+
 
 
     const RenderProgress = ({ label, stats, }) => (
         <View style={{ flexDirection: 'row', marginVertical: hp(1), }}>
-            <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'flex-start' }}>
-                <Text style={{ textTransform: 'capitalize', paddingLeft: 8 }}>{label ? label : 'label'}</Text>
+            <View style={{ width: wp(30), justifyContent: 'center', alignItems: 'flex-start' }}>
+                <Text style={{ textTransform: 'capitalize', paddingLeft: 15  }}>{label ? label : 'label'}</Text>
             </View>
-            <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: wp(10), justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontWeight: 'bold' }}>{stats ? stats : 0}</Text>
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                <Bar indeterminateAnimationDuration={1000}
-                    //style={{ height: hp(1) }}
-                    color={stats > 10 ? colors.fire : colors.grass}
+                <Bar 
+                    animated={true}
+                    animationType='timing'
+                      
+                    color={stats >=30 & stats <=50 ? colors.electric : stats > 51 & stats < 999 ? colors.grass : stats <=29 ? colors.fire : colors.normal }
                     progress={stats ? stats / 100 : 1 / 100}
                     width={wp(55)}
                     borderRadius={0}
@@ -50,13 +62,13 @@ const DetailsPokemon = ({ navigation }) => {
     )
     const SecondRoute = () => (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: hp(2) }}>
-            <RenderProgress label='hp' stats={10} />
-            <RenderProgress label='attack' stats={10} />
-            <RenderProgress label='defense' stats={10} />
-            <RenderProgress label='sp.atk' stats={10} />
-            <RenderProgress label='sp.def' stats={10} />
-            <RenderProgress label='speed' stats={10} />
-            <RenderProgress label='total' stats={10} />
+            {
+                Pokemon.stats.map((x,i) => {
+                    return(
+                        <RenderProgress key={i} label={x.stat.name} stats={x.base_stat} />
+                    )
+                })
+            }
             <View style={{ width: wp(100), marginTop: hp(1) }}>
                 <Text style={{ fontSize: hp(2.3), fontWeight: 'bold', marginLeft: 10 }}>Type defences</Text>
                 <Text style={{ fontSize: hp(1.8), fontWeight: '900', marginLeft: 10, color: 'grey' }}>The effectives of each type on Charmander.</Text>
@@ -122,13 +134,13 @@ const DetailsPokemon = ({ navigation }) => {
 
     const getIndex = (index) => {
         setCurrentPokemon(Poke[index])
-        console.log(Poke[index]);
+        //console.log(Poke[index]);
 
     }
 
     return (
         <ScrollView style={{ backgroundColor: ActiveColor(Cp) }}>
-            <View style={{ flex: 1.1 }}>
+            <View style={{ flex: 1}}>
                 <ImageBackground source={{ uri: 'https://i.imgur.com/GfnKKUj.png' }} style={{
                     flex: 1, backgroundColor: ActiveColor(Cp)
                 }}>
@@ -172,9 +184,13 @@ const DetailsPokemon = ({ navigation }) => {
                     />
                 </ImageBackground>
             </View>
-            <View style={{ flex: 0.9, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
-                <View style={{ width: wp(100), height: hp(80), marginTop: hp(2), alignItems: 'center', backgroundColor: 'red', flexDirection: 'row' }}>
-                    <TabView
+            <View style={{ flex: 1, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
+                <View style={{ width: wp(100), height: hp(80), marginTop: hp(2), alignItems: 'center', backgroundColor: 'white', flexDirection: 'row' }}>
+                   {
+                       loadPoke == true ?
+                        <ActivityIndicator color='black' size='large' />
+                        :
+                        <TabView
                         renderTabBar={props => <TabBar
                             indicatorContainerStyle={{
                                 backgroundColor: 'white',
@@ -198,7 +214,11 @@ const DetailsPokemon = ({ navigation }) => {
                         renderScene={renderScene}
                         onIndexChange={setIndex}
                         initialLayout={{ width: hp(100) }}
+                        
                     />
+                   }
+                   
+
                 </View>
             </View>
 

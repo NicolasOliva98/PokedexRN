@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, Animated, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import {ActiveColor, colors, Typetras} from '../helpers/colors'
+import { ActiveColor, colors, Typetras } from '../helpers/colors'
 import { FlatGrid } from 'react-native-super-grid';
 import Poke from '../../api/poke.json'
+import { LinearGradient, Stop, Svg } from 'react-native-svg';
 
-const Main = ({navigation}) => {
-  
+const Main = ({ navigation }) => {
+
+    // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg
 
     const types = {
         ghost: "Fantasma",
@@ -28,7 +30,9 @@ const Main = ({navigation}) => {
         ground: "Tierra",
         fairy: "Hada",
     }
-//Poke.filter(x => x.type[0] === 'fire' | x.type[1] === 'fire')
+    const url = (item) => `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${item.number}.png`
+    const uri = (item) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${item.id}.svg`
+    //Poke.filter(x => x.type[0] === 'fire' | x.type[1] === 'fire')
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -37,12 +41,13 @@ const Main = ({navigation}) => {
             </View>
             <FlatGrid
                 itemDimension={hp(18)}
-                data={Poke.slice(0,100)}
+                data={Poke.slice(0, 100)}
                 // staticDimension={300}
                 // fixed
-                spacing={10}
+
+                spacing={hp(1.1)}
                 renderItem={({ item, index }) => (
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate('DetailsPokemons', {setindex:index})}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate('DetailsPokemons', { setindex: index, _id: item.id })}>
                         <ImageBackground key={item.name} borderRadius={20} resizeMode='cover' source={{ uri: 'https://i.imgur.com/26mndC3.png' }} style={[styles.itemContainer, {
                             backgroundColor: ActiveColor(item)
                         }]}>
@@ -50,24 +55,27 @@ const Main = ({navigation}) => {
                                 <View style={{ width: wp(26), paddingTop: hp(3), paddingLeft: hp(1), }}>
                                     <Text style={styles.itemName}>{item.ThumbnailAltText}</Text>
                                     {
-                                        item.type.map((x,i) => {
+                                        item.type.map((x, i) => {
                                             return (
                                                 <View key={i} style={{ marginLeft: hp(1), marginVertical: hp(0.2), borderRadius: 10, justifyContent: 'center', alignItems: 'center', textAlign: 'center', width: wp(14), height: hp(2.3), backgroundColor: 'rgba(255,255,255,0.4)', textTransform: 'capitalize', fontSize: hp(1.4) }}>
-                                                    <Text style={{ color: '#fff', justifyContent: 'center', alignItems: 'center', textAlign: 'center', textTransform: 'capitalize', fontSize: hp(1.33) }}>{Typetras(x)}</Text>
+                                                    <Text style={{ color: '#fff', justifyContent: 'center', alignItems: 'center', textAlign: 'center', textTransform: 'capitalize', fontSize: hp(1.33) }}>{x}</Text>
                                                 </View>
                                             )
                                         })
                                     }
                                 </View>
-                                <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center'}}>
-                                    <Text style={{ color: 'rgba(0,0,0,0.15)', fontSize: hp(1.5), fontWeight: 'bold', marginBottom:hp(1) }}>{`#${item.number}`}</Text>
+                                <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: 'rgba(0,0,0,0.15)', fontSize: hp(1.5), fontWeight: 'bold', marginBottom: hp(1) }}>{`#${item.number}`}</Text>
+                                    <Svg height="100" width="100">
                                     <Image
                                         style={{
                                             width: hp(10),
                                             height: hp(10),
                                         }}
-                                        source={{ uri: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${item.number}.png` }}
+                                        source={{ uri: url(item) }}
                                     />
+                                    </Svg>
+                                   
                                 </View>
                             </View>
                         </ImageBackground>
