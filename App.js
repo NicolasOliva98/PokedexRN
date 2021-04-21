@@ -2,7 +2,6 @@ import React from 'react';
 import {SafeAreaView, StatusBar } from 'react-native';
 import Root from './src/routes/index'
 
-//forceInset = {{ top: 'always', bottom: 'always' }}
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }} >

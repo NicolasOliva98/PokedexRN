@@ -5,7 +5,7 @@ import PokedexScreen from '../screens/Pokedex'
 import DetailsPokemonsScreen from '../screens/DetailsPokemon' 
 import { fromLeft, zoomIn, zoomOut } from 'react-navigation-transitions'
 
-const handleCustomTransition = ({ scenes }) => {
+/* const handleCustomTransition = ({ scenes }) => {
     const prevScene = scenes[scenes.length - 2];
     const nextScene = scenes[scenes.length - 1];
 
@@ -21,7 +21,7 @@ const handleCustomTransition = ({ scenes }) => {
     }
     return fromLeft();
 };
-
+ */
 const RootStack = createStackNavigator({
   /*   Home: {
         screen: null

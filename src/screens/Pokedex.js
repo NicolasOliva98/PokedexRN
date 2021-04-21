@@ -4,7 +4,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { ActiveColor, colors, Typetras } from '../helpers/colors'
 import { FlatGrid } from 'react-native-super-grid';
 import Poke from '../../api/poke.json'
-import { LinearGradient, Stop, Svg } from 'react-native-svg';
 
 const Main = ({ navigation }) => {
 
@@ -66,7 +65,7 @@ const Main = ({ navigation }) => {
                                 </View>
                                 <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: 'rgba(0,0,0,0.15)', fontSize: hp(1.5), fontWeight: 'bold', marginBottom: hp(1) }}>{`#${item.number}`}</Text>
-                                    <Svg height="100" width="100">
+                                    
                                     <Image
                                         style={{
                                             width: hp(10),
@@ -74,7 +73,7 @@ const Main = ({ navigation }) => {
                                         }}
                                         source={{ uri: url(item) }}
                                     />
-                                    </Svg>
+                                   
                                    
                                 </View>
                             </View>

@@ -8,45 +8,67 @@ import { Bar } from 'react-native-progress';
 import Carousel from 'react-native-snap-carousel';
 import Poke from '../../api/poke.json'
 import * as Animatable from 'react-native-animatable';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const DetailsPokemon = ({ navigation }) => {
     const currentIndex = navigation.getParam('setindex')
     const currentId = navigation.getParam('_id')
-    //console.log(currentIndex);
+    const [index, setIndex] = useState(0)
     const [Cp, setCurrentPokemon] = useState(Poke[currentIndex])
     const [Pokemon, setPokemon] = useState({})
+    const [SpecieP, setSpecieP] = useState({})
+    const [Chains, setChains] = useState({})
     const [loadPoke, setLoadPoke] = useState(false)
+
+  
 
     const fetchPokemon = async () => {
         setLoadPoke(true)
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${Cp.id}`)
+        const specie = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${Cp.id}/`)
         const data = await resp.json()
+        const data2 = await specie.json()
         setPokemon(data)
+        setSpecieP(data2.evolution_chain.url)
+        const chain = await fetch(data2.evolution_chain.url)
+        const data3 = await chain.json()
+        
+        const baby = data3.chain.species.name ? data3.chain.species.name : ''
+        const middle = data3.chain.evolves_to[0].species.name ? data3.chain.evolves_to[0].species.name : ''
+        const main = data3.chain.evolves_to[0].evolves_to[0].species.name ? data3.chain.evolves_to[0].evolves_to[0].species.name : ''
+        let Capitalize = str => {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+        const evolution = Poke.slice(0,100).filter(x => x.name === Capitalize(baby) | x.name === Capitalize(middle) | x.name === Capitalize(main))
+        setChains(evolution)
         setLoadPoke(false);
     }
-      useEffect(()=>{
+
+    useEffect(() => {
         fetchPokemon()
-         return(()=>{
-             
-         })
-     },[Cp])
+    
 
+        return (() => {
 
+        })
+    }, [Cp])
 
+    console.log(Chains); 
+    
     const RenderProgress = ({ label, stats, }) => (
         <View style={{ flexDirection: 'row', marginVertical: hp(1), }}>
             <View style={{ width: wp(30), justifyContent: 'center', alignItems: 'flex-start' }}>
-                <Text style={{ textTransform: 'capitalize', paddingLeft: 15  }}>{label ? label : 'label'}</Text>
+                <Text style={{ textTransform: 'capitalize', paddingLeft: 15 }}>{label ? label : 'label'}</Text>
             </View>
             <View style={{ width: wp(10), justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontWeight: 'bold' }}>{stats ? stats : 0}</Text>
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                <Bar 
+                <Bar
                     animated={true}
                     animationType='timing'
-                      
-                    color={stats >=30 & stats <=50 ? colors.electric : stats > 51 & stats < 999 ? colors.grass : stats <=29 ? colors.fire : colors.normal }
+
+                    color={stats >= 30 & stats <= 50 ? colors.electric : stats > 51 & stats < 999 ? colors.grass : stats <= 29 ? colors.fire : colors.normal}
                     progress={stats ? stats / 100 : 1 / 100}
                     width={wp(55)}
                     borderRadius={0}
@@ -63,8 +85,8 @@ const DetailsPokemon = ({ navigation }) => {
     const SecondRoute = () => (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: hp(2) }}>
             {
-                Pokemon.stats.map((x,i) => {
-                    return(
+                Pokemon.stats.map((x, i) => {
+                    return (
                         <RenderProgress key={i} label={x.stat.name} stats={x.base_stat} />
                     )
                 })
@@ -76,25 +98,31 @@ const DetailsPokemon = ({ navigation }) => {
         </View>
     )
     const ThreeRoute = () => (
-        <View style={{ flex: 1, backgroundColor: '#fff' }} />
+        <View style={{ flex: 1, backgroundColor: '#fff', alignItems:'center' }}>
+            <View style={{paddingTop:20 }}>
+           {
+                Chains.map((x, i) => {
+                    return (
+                        <View style={{width:hp(15), height:hp(15), justifyContent:'center', alignItems:'center', backgroundColor:'rgba(0,0,0,0.8)', borderRadius:100, marginVertical:30}}>
+                        <Image key={i}
+                            style={{
+                                width: hp(10.2),
+                                height: hp(10.2),
+                            }}
+                            source={{ uri: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${x.number}.png` }}
+                        />
+                            <Text style={{color:'white'}}>{x.ThumbnailAltText}</Text>
+                      </View>
+                    )
+                })
+            }
+            </View>
+        </View>
     )
     const FourRoute = () => (
         <View style={{ flex: 1, backgroundColor: '#fff' }} />
     )
-    const renderScene = SceneMap({
-        first: FirstRoute,
-        second: SecondRoute,
-        three: ThreeRoute,
-        four: FourRoute,
-    });
 
-    const [index, setIndex] = useState(0);
-    const [routes] = useState([
-        { key: 'first', title: 'About' },
-        { key: 'second', title: 'Base Stats' },
-        { key: 'three', title: 'Evolution' },
-        { key: 'four', title: 'Moves' },
-    ]);
 
     const types = {
         ghost: "Fantasma",
@@ -117,30 +145,37 @@ const DetailsPokemon = ({ navigation }) => {
         fairy: "Hada",
     }
 
+    const renderScene = SceneMap({
+        first: FirstRoute,
+        second: SecondRoute,
+        three: ThreeRoute,
+        four: FourRoute,
+    })
+
+    const [routes] = useState([
+        { key: 'first', title: 'About' },
+        { key: 'second', title: 'Base Stats' },
+        { key: 'three', title: 'Evolution' },
+        { key: 'four', title: 'Moves' },
+    ])
     const _renderItem = ({ item, index }) => {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                 <Image
+                <Image
                     style={{
                         width: hp(30),
                         height: hp(30),
                     }}
                     source={{ uri: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${item.number}.png` }}
-                /> 
+                />
             </View>
 
         );
     }
 
-    const getIndex = (index) => {
-        setCurrentPokemon(Poke[index])
-        //console.log(Poke[index]);
-
-    }
-
     return (
         <ScrollView style={{ backgroundColor: ActiveColor(Cp) }}>
-            <View style={{ flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <ImageBackground source={{ uri: 'https://i.imgur.com/GfnKKUj.png' }} style={{
                     flex: 1, backgroundColor: ActiveColor(Cp)
                 }}>
@@ -173,51 +208,51 @@ const DetailsPokemon = ({ navigation }) => {
                     </View>
                     <Carousel
                         firstItem={currentIndex}
-                        onSnapToItem={(index) => getIndex(index)}
+                        onSnapToItem={(index) => setCurrentPokemon(Poke[index])}
                         data={Poke.slice(0, 100)}
                         renderItem={_renderItem}
                         keyExtractor={(item) => String(item.id)}
                         sliderWidth={wp(100)}
                         itemWidth={wp(100)}
                         initialNumToRender={currentIndex + 1}
-                       
+
                     />
                 </ImageBackground>
             </View>
             <View style={{ flex: 1, backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30 }}>
                 <View style={{ width: wp(100), height: hp(80), marginTop: hp(2), alignItems: 'center', backgroundColor: 'white', flexDirection: 'row' }}>
-                   {
-                       loadPoke == true ?
-                        <ActivityIndicator color='black' size='large' />
-                        :
-                        <TabView
-                        renderTabBar={props => <TabBar
-                            indicatorContainerStyle={{
-                                backgroundColor: 'white',
-                                marginBottom: -6
-                            }}
-                            labelStyle={{
-                                textTransform: 'capitalize',
-                                fontWeight: 'bold',
-                                fontSize: 12
-                            }}
-                            contentContainerStyle={{
-                                shadowRadius: 0
-                            }}
-                            inactiveColor='grey'
-                            activeColor='#000'
-                            indicatorStyle={{
-                                backgroundColor: 'blue'
-                            }}
-                            {...props} />}
-                        navigationState={{ index, routes }}
-                        renderScene={renderScene}
-                        onIndexChange={setIndex}
-                        initialLayout={{ width: hp(100) }}
-                        
-                    />
-                   }
-                   
+                    {
+                        loadPoke == true ?
+                            <ActivityIndicator color='black' size='large' />
+                            :
+                            <TabView
+                                renderTabBar={props => <TabBar
+                                    indicatorContainerStyle={{
+                                        backgroundColor: 'white',
+                                        marginBottom: -6
+                                    }}
+                                    labelStyle={{
+                                        textTransform: 'capitalize',
+                                        fontWeight: 'bold',
+                                        fontSize: 12
+                                    }}
+                                    contentContainerStyle={{
+                                        shadowRadius: 0
+                                    }}
+                                    inactiveColor='grey'
+                                    activeColor='#000'
+                                    indicatorStyle={{
+                                        backgroundColor: 'blue'
+                                    }}
+                                    {...props} />}
+                                navigationState={{ index, routes }}
+                                renderScene={renderScene}
+                                onIndexChange={setIndex}
+                                initialLayout={{ width: hp(100) }}
+
+                            />
+                    }
+
 
                 </View>
             </View>
