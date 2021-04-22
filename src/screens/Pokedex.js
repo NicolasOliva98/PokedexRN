@@ -35,7 +35,7 @@ const Main = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <View style={{ padding: 15, }}>
+            <View style={{ padding: 15,}}>
                 <Text style={{ fontSize: hp(4), fontWeight: 'bold', color: '#222' }}>Pokedex</Text>
             </View>
             <FlatGrid
@@ -43,15 +43,17 @@ const Main = ({ navigation }) => {
                 data={Poke.slice(0, 100)}
                 // staticDimension={300}
                 // fixed
-
+                style={{
+                    borderRadius:20
+                }}
                 spacing={hp(1.1)}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate('DetailsPokemons', { setindex: index, _id: item.id })}>
                         <ImageBackground key={item.name} borderRadius={20} resizeMode='cover' source={{ uri: 'https://i.imgur.com/26mndC3.png' }} style={[styles.itemContainer, {
-                            backgroundColor: ActiveColor(item)
+                            backgroundColor: ActiveColor(item),
                         }]}>
                             <View style={{ flexDirection: 'row', height: '100%' }}>
-                                <View style={{ width: wp(26), paddingTop: hp(3), paddingLeft: hp(1), }}>
+                                <View style={{ width: wp(26), paddingTop: hp(3), paddingLeft: hp(1),alignItems:'flex-start' }}>
                                     <Text style={styles.itemName}>{item.ThumbnailAltText}</Text>
                                     {
                                         item.type.map((x, i) => {
@@ -68,8 +70,8 @@ const Main = ({ navigation }) => {
                                     
                                     <Image
                                         style={{
-                                            width: hp(10),
-                                            height: hp(10),
+                                            width: hp(10.4),
+                                            height: hp(10.4),
                                         }}
                                         source={{ uri: url(item) }}
                                     />
@@ -101,5 +103,6 @@ const styles = StyleSheet.create({
         fontSize: hp(1.8),
         color: '#fff',
         fontWeight: 'bold',
+        textAlign:'center'
     },
 });

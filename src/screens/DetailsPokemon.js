@@ -53,7 +53,7 @@ const DetailsPokemon = ({ navigation }) => {
         })
     }, [Cp])
 
-    console.log(Chains); 
+    
     
     const RenderProgress = ({ label, stats, }) => (
         <View style={{ flexDirection: 'row', marginVertical: hp(1), }}>

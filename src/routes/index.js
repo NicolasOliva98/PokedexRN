@@ -1,7 +1,7 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
+import { createStackNavigator, TransitionPresets } from 'react-navigation-stack'
 import PokedexScreen from '../screens/Pokedex'
-/* import HomeScreen from '../screens/Home' */
+import HomeScreen from '../screens/Home'
 import DetailsPokemonsScreen from '../screens/DetailsPokemon' 
 import { fromLeft, zoomIn, zoomOut } from 'react-navigation-transitions'
 
@@ -23,9 +23,9 @@ import { fromLeft, zoomIn, zoomOut } from 'react-navigation-transitions'
 };
  */
 const RootStack = createStackNavigator({
-  /*   Home: {
-        screen: null
-    }, */
+   Home: {
+        screen: HomeScreen
+    },
     Pokedex: {
         screen: PokedexScreen,
     },
@@ -33,9 +33,12 @@ const RootStack = createStackNavigator({
         screen: DetailsPokemonsScreen
     },
 }, {
-    initialRouteName: 'Pokedex',
+    initialRouteName: 'Home',
     headerMode:'none',
-    //transitionConfig: () => fromLeft(),
+    defaultNavigationOptions:{
+        ...TransitionPresets.ModalTransition,
+    }
+  
     //transitionConfig: (nav) => handleCustomTransition(nav)
 })
 
