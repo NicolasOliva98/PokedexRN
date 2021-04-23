@@ -36,7 +36,7 @@ const RootStack = createStackNavigator({
     initialRouteName: 'Home',
     headerMode:'none',
     defaultNavigationOptions:{
-        ...TransitionPresets.ModalTransition,
+        ...TransitionPresets.ModalSlideFromBottomIOS,
     }
   
     //transitionConfig: (nav) => handleCustomTransition(nav)

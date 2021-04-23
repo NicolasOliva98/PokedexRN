@@ -174,7 +174,7 @@ const DetailsPokemon = ({ navigation }) => {
     }
 
     return (
-        <ScrollView style={{ backgroundColor: ActiveColor(Cp) }}>
+        <View style={{flex:1, backgroundColor: ActiveColor(Cp) }}>
             <View style={{ flex: 1 }}>
                 <ImageBackground source={{ uri: 'https://i.imgur.com/GfnKKUj.png' }} style={{
                     flex: 1, backgroundColor: ActiveColor(Cp)
@@ -257,7 +257,7 @@ const DetailsPokemon = ({ navigation }) => {
                 </View>
             </View>
 
-        </ScrollView>
+        </View>
 
     );
 }

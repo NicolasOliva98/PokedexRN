@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ImageBackground, Image, Animated, TouchableOpac
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ActiveColor, colors, Typetras } from '../helpers/colors'
 import { FlatGrid } from 'react-native-super-grid';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons'
 import Poke from '../../api/poke.json'
 
 const Main = ({ navigation }) => {
@@ -35,8 +36,20 @@ const Main = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <View style={{ padding: 15,}}>
-                <Text style={{ fontSize: hp(4), fontWeight: 'bold', color: '#222' }}>Pokedex</Text>
+            <View style={{height:hp(20)}}>
+                <ImageBackground resizeMode='cover' source={require('../../assets/tocard2.png')} style={{width:'100%', height:hp(39.4), position:'absolute', top:-115, }}/>
+                    <View style={{ width: wp(100), height: hp(9), justifyContent: 'center', flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={() => navigation.goBack()} style={{ width: '50%', alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+                            <Icon color='black' name='arrow-left' size={hp(3.5)} style={{ marginLeft: hp(3) }} />
+                        </TouchableOpacity>
+                        <View style={{ width: '50%', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                            <Icon color='black' name='heart-outline' size={hp(3.5)} style={{ marginRight: hp(3) }} />
+                        </View>
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 15 }}>
+                        <Text style={{ fontSize: hp(4), fontWeight: 'bold', color: '#222' }}>Pokedex</Text>
+                    </View>
+                         
             </View>
             <FlatGrid
                 itemDimension={hp(18)}
@@ -44,7 +57,7 @@ const Main = ({ navigation }) => {
                 // staticDimension={300}
                 // fixed
                 style={{
-                    borderRadius:20
+                    borderRadius: 20
                 }}
                 spacing={hp(1.1)}
                 renderItem={({ item, index }) => (
@@ -53,7 +66,7 @@ const Main = ({ navigation }) => {
                             backgroundColor: ActiveColor(item),
                         }]}>
                             <View style={{ flexDirection: 'row', height: '100%' }}>
-                                <View style={{ width: wp(26), paddingTop: hp(3), paddingLeft: hp(1),alignItems:'flex-start' }}>
+                                <View style={{ width: wp(26), paddingTop: hp(3), paddingLeft: hp(1), alignItems: 'flex-start' }}>
                                     <Text style={styles.itemName}>{item.ThumbnailAltText}</Text>
                                     {
                                         item.type.map((x, i) => {
@@ -67,7 +80,6 @@ const Main = ({ navigation }) => {
                                 </View>
                                 <View style={{ width: wp(20), justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: 'rgba(0,0,0,0.15)', fontSize: hp(1.5), fontWeight: 'bold', marginBottom: hp(1) }}>{`#${item.number}`}</Text>
-                                    
                                     <Image
                                         style={{
                                             width: hp(10.4),
@@ -75,8 +87,6 @@ const Main = ({ navigation }) => {
                                         }}
                                         source={{ uri: url(item) }}
                                     />
-                                   
-                                   
                                 </View>
                             </View>
                         </ImageBackground>
@@ -103,6 +113,6 @@ const styles = StyleSheet.create({
         fontSize: hp(1.8),
         color: '#fff',
         fontWeight: 'bold',
-        textAlign:'center'
+        textAlign: 'center'
     },
 });
